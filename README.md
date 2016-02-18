@@ -1,14 +1,13 @@
-## Trustly Plugin ##
----------------------------
+## Cordova Trustly Plugin ##
 Open Trustly flow in another window modally. 
 
-Platforms:
+**Platforms:**
 - iOS >= 8 (uses WKWebView)
+- Android (In progress)
 
 Tested on cordova-ios >= 4.0.1. It might work on older version though.
 
 ## How to use? ##
----------------------------
 To install this plugin, follow the [Command-line Interface Guide](http://cordova.apache.org/docs/en/latest/guide/cli/index.html#add-plugin-features).
 
 ```sh
@@ -16,7 +15,6 @@ $ cordova plugin add https://github.com/5monkeys/cordova-trustly-plugin
 ```
 
 ## How to use it in javascript ##
----------------------------------
 
 ```js
 function onDeviceReady() {
