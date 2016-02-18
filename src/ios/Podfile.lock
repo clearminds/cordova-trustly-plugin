@@ -1,0 +1,10 @@
+PODS:
+  - Cordova (3.9.1)
+
+DEPENDENCIES:
+  - Cordova (~> 3.9.1)
+
+SPEC CHECKSUMS:
+  Cordova: f8142a2cb0072f5225e865fc5660f174cc0674a5
+
+COCOAPODS: 0.39.0

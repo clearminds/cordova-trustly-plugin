@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="se.fivemonkeys.cordova.plugin.trustly"
+        version="0.1.0">
+
+    <name>Trustly Cordova Plugin</name>
+    <description>Add Trustly support to your cordova apps</description>
+    <author>Akseli Nelander</author>
+    <license>MIT</license>
+    <keywords>trustly</keywords>
+    <repo>https://github.com/5monkeys/cordova-trustly-plugin.git</repo>
+    <issue>https://github.com/5monkeys/cordova-trustly-plugin/issues</issue>
+
+    <engines>
+        <engine name="cordova" version=">=3.0" />
+    </engines>
+
+    <js-module src="www/Trustly.js" name="PayPalMPL">
+        <clobbers target="window.plugins.Trustly" />
+    </js-module>
+
+    <!-- ios -->
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="Trustly">
+                <param name="ios-package" value="CDVTrustly" />
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/TrustlyTestObjC/CDVTrustly.h" />
+        <source-file src="src/ios/TrustlyTestObjC/CDVTrustly.m" />
+        <header-file src="src/ios/TrustlyTestObjC/MessageHandlerOpenURLScheme.h" />
+        <source-file src="src/ios/TrustlyTestObjC/MessageHandlerOpenURLScheme.m" />
+        <header-file src="src/ios/TrustlyTestObjC/TrustlyViewController.h" />
+        <source-file src="src/ios/TrustlyTestObjC/TrustlyViewController.m" />
+
+        <framework src="WebKit.framework" />
+    </platform>
+
+</plugin>
