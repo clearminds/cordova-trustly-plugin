@@ -21,6 +21,29 @@
         <clobbers target="window.plugins.Trustly" />
     </js-module>
 
+    <!-- android -->
+    <platform name="android">
+        <config-file target="config.xml" parent="/*">
+            <feature name="Trustly">
+                <param name="android-package" value="se.monkeys.trustly.Trustly"/>
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <activity android:name="se.monkeys.trustly.TrustlyActivity" />
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.INTERNET"/>
+        </config-file>
+
+        <source-file src="src/android/TrustlyTest/app/src/main/java/se/monkeys/trustly/Trustly.java" target-dir="src/se/monkeys/trustly" />
+        <source-file src="src/android/TrustlyTest/app/src/main/java/se/monkeys/trustly/TrustlyActivity.java" target-dir="src/se/monkeys/trustly" />
+        <source-file src="src/android/TrustlyTest/app/src/main/java/se/monkeys/trustly/TrustlyJavascriptInterface.java" target-dir="src/se/monkeys/trustly" />
+
+        <framework src="com.android.support:appcompat-v7:23.1.1"/>
+    </platform>
+
     <!-- ios -->
     <platform name="ios">
         <config-file target="config.xml" parent="/*">

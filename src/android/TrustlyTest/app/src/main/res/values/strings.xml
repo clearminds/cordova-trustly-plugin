@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TrustlyTest</string>
+    <string name="enter_trustly_url">Enter Trustly URL…</string>
+    <string name="submit_trustly_url">Submit</string>
+</resources>
