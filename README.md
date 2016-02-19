@@ -1,11 +1,11 @@
 ## Cordova Trustly Plugin ##
 Open Trustly flow in another window modally. Implements the flow discussed here: <https://trustly.com/en/developer/api#/iosandroid>.
 
-**Platforms:**
+**Supported platforms:**
 - iOS >= 8 (uses WKWebView)
-- Android (In progress)
+- Android
 
-Tested on cordova-ios >= 4.0.1. It might work on older versions though.
+Tested on cordova-ios >= 4.0.1 and cordova-android >= 5.1.0. It might work on older versions though.
 
 ## Installation ##
 To install this plugin, follow the [Command-line Interface Guide](http://cordova.apache.org/docs/en/latest/guide/cli/index.html#add-plugin-features).
@@ -29,15 +29,19 @@ function onDeviceReady() {
             console.log(response.code, response.message);
         }
 
-        var endUrls = ['/flow/done', 'flow/cancel'];
+        // This is the URL you received from Trustly after
+        // initiating one of their flows (deposit, selectaccount etc.)
+        var trustlyFlowURL = 'https://test.trustly.com/url';
+        
         // The endUrls are the possible redirects that you have sent to Trustly.
         // The plugin will match each url with the next urls suffix
-        // A SuccessURL of example.com/trustly/success/ would be matched with ['/trustly/success/'] for example
+        // A SuccessURL of 'https://your.site/trustly/success/' would be matched with ['/trustly/success/'] for example
         // See: https://trustly.com/en/developer/api#/deposit (SuccessURL and FailURL)
+        var endUrls = ['/flow/done', '/flow/cancel'];
         
         // If it matches one of the endUrls we will close the modal and execute the successCallback
         window.plugins.Trustly.startTrustlyFlow(
-            "https://test.trustly.com/url", endUrls, 
+            trustlyFlowURL, endUrls, 
             successCallback, errorCallback
         );
     }
