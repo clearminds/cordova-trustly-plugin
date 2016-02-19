@@ -1,29 +1,38 @@
 package se.monkeys.trustly;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class TrustlyActivity extends AppCompatActivity {
+public class TrustlyActivity extends Activity {
     public static final String TRUSTLY_URL_MESSAGE = "TrustlyActivity.URL_MESSAGE";
     public static final String TRUSTLY_END_URLS_MESSAGE = "TrustlyActivity.END_URLS_MESSAGE";
     public static final int RESULT_ERROR = 500;
     private static final String LOGTAG = "TrustlyActivity";
+    private LinearLayout rootLayout;
+    private View closeView;
     WebView webView;
 
+    @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         webView = new WebView(this);
-        setContentView(webView);
+
+        updateUI();
 
         Intent intent = getIntent();
         String urlString = intent.getStringExtra(TRUSTLY_URL_MESSAGE);
@@ -42,8 +51,8 @@ public class TrustlyActivity extends AppCompatActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 Log.d(LOGTAG, String.format("shouldOverrideUrlLoading for url: %s", url));
+
                 for (String endUrl : endUrls) {
-                    Log.d(LOGTAG, String.format("shouldOverrideUrlLoading matching %s", endUrl));
                     if (url.endsWith(endUrl)) {
                         Intent result = new Intent();
                         result.putExtra("finalUrl", url);
@@ -63,48 +72,53 @@ public class TrustlyActivity extends AppCompatActivity {
 
         webView.addJavascriptInterface(new TrustlyJavascriptInterface(this), "TrustlyAndroid");
         webView.loadUrl(urlString);
-
-//        LinearLayout layout = new LinearLayout(this);
-//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-//                LinearLayout.LayoutParams.MATCH_PARENT,
-//                LinearLayout.LayoutParams.WRAP_CONTENT);
-//        layout.setLayoutParams(params);
-
-//        LinearLayout.LayoutParams wvParams = new LinearLayout.LayoutParams(
-//                LinearLayout.LayoutParams.MATCH_PARENT,
-//                LinearLayout.LayoutParams.MATCH_PARENT);
-//        webView.setLayoutParams(wvParams);
-//
-//        CoordinatorLayout layout = new CoordinatorLayout(this);
-//        layout.setLayoutParams(new CoordinatorLayout.LayoutParams(
-//                CoordinatorLayout.LayoutParams.MATCH_PARENT,
-//                CoordinatorLayout.LayoutParams.MATCH_PARENT));
-//
-//        layout.addView(webView);
-
-//        CoordinatorLayout.LayoutParams fabParams = new CoordinatorLayout.LayoutParams(
-//                CoordinatorLayout.LayoutParams.WRAP_CONTENT,
-//                CoordinatorLayout.LayoutParams.WRAP_CONTENT);
-//        FloatingActionButton fab = new FloatingActionButton(this);
-//        fab.setLayoutParams(fabParams);
-//        fab.
-//        layout.addView(fab);
-
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                setResult(RESULT_CANCELED);
-//                finish();
-//            }
-//        });
-
-//        setContentView(layout);
-
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        setResult(RESULT_CANCELED);
-//        super.onBackPressed();
-//    }
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        // Update the height of the closeView
+        // in updateUI we have no height set yet.
+        int closeViewHeight = rootLayout.getMeasuredHeight() / 10;
+        ViewGroup.LayoutParams closeViewParams = closeView.getLayoutParams();
+        if (closeViewParams != null) {
+            closeViewParams.height = closeViewHeight;
+        }
+        Log.d(LOGTAG, "onWindowFocusChanged, setting height to " + closeViewHeight);
+    }
+
+    private void updateUI() {
+        rootLayout = new LinearLayout(this);
+        LinearLayout.LayoutParams rootParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        );
+        rootLayout.setLayoutParams(rootParams);
+        rootLayout.setOrientation(LinearLayout.VERTICAL);
+        setContentView(rootLayout);
+
+        closeView = new View(this);
+        LinearLayout.LayoutParams closeViewParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT  // Updated in onWindowFocusChanged
+        );
+        closeView.setBackgroundColor(Color.TRANSPARENT);
+        closeView.setLayoutParams(closeViewParams);
+        rootLayout.addView(closeView);
+
+        closeView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_CANCELED);
+                finish();
+            }
+        });
+
+        LinearLayout.LayoutParams webViewParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        );
+        webView.setLayoutParams(webViewParams);
+        rootLayout.addView(webView);
+    }
+
 }

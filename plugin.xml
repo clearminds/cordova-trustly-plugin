@@ -30,7 +30,9 @@
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
-            <activity android:name="se.monkeys.trustly.TrustlyActivity" />
+            <activity 
+                android:name="se.monkeys.trustly.TrustlyActivity"
+                android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/*">

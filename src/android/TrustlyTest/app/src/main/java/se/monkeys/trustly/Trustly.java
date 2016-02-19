@@ -78,8 +78,12 @@ public class Trustly extends CordovaPlugin {
         this.callbackContext = callbackContext;
 
         Intent trustlyIntent = new Intent(cordova.getActivity(), TrustlyActivity.class);
-        trustlyIntent.putExtra(TrustlyActivity.TRUSTLY_URL_MESSAGE, urlString);
-        trustlyIntent.putExtra(TrustlyActivity.TRUSTLY_END_URLS_MESSAGE, endUrls.toArray());
+        trustlyIntent.putExtra(
+                TrustlyActivity.TRUSTLY_URL_MESSAGE,
+                urlString);
+        trustlyIntent.putExtra(
+                TrustlyActivity.TRUSTLY_END_URLS_MESSAGE,
+                endUrls.toArray(new String[endUrls.size()]));
 
         this.cordova.startActivityForResult(this, trustlyIntent, REQUEST_CODE);
     }

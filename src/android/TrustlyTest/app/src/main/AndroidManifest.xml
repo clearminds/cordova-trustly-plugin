@@ -17,7 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="se.monkeys.trustly.TrustlyActivity"></activity>
+        <activity
+            android:name="se.monkeys.trustly.TrustlyActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
     </application>
 
 </manifest>
