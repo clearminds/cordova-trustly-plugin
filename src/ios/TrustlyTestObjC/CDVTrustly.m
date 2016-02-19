@@ -30,7 +30,7 @@
         NSURLRequest *req = [NSURLRequest requestWithURL:trustlyURL];
         valid = [NSURLConnection canHandleRequest:req];
     } else {
-        errorMsg = @"Given URL is not a valid.";
+        errorMsg = @"Given URL is not valid";
         valid = NO;
     }
     
@@ -82,10 +82,8 @@
                                         completion:nil];
         
     } else {
-        NSDictionary *result = @{@"message": @"Invalid arguments",
-                                 @"code": @"error"};
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
-                                                      messageAsDictionary:result];
+                                                          messageAsString:errorMsg];
         [self.commandDelegate sendPluginResult:pluginResult 
                                     callbackId:callbackId];
     }
