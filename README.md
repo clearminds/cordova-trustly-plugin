@@ -7,14 +7,14 @@ Open Trustly flow in another window modally. Implements the flow discussed here:
 
 Tested on cordova-ios >= 4.0.1. It might work on older versions though.
 
-## How to use? ##
+## Installation ##
 To install this plugin, follow the [Command-line Interface Guide](http://cordova.apache.org/docs/en/latest/guide/cli/index.html#add-plugin-features).
 
 ```sh
 $ cordova plugin add https://github.com/5monkeys/cordova-trustly-plugin 
 ```
 
-## How to use it in javascript ##
+## Usage ##
 
 ```js
 function onDeviceReady() {
