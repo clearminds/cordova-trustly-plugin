@@ -22,18 +22,33 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.endReached = NO;
-    
+
+    // Initialize closeView (which will close modal when tapped)
+    CGFloat topOffset = self.view.bounds.size.height / 10;
+    CGRect closeViewFrame = CGRectMake(0, 0,
+                                       self.view.bounds.size.width,
+                                       topOffset);
+    UIView *closeView = [[UIView alloc] initWithFrame:closeViewFrame];
+    closeView.backgroundColor = [UIColor clearColor];
+    UITapGestureRecognizer *closeViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeView:)];
+    [closeView addGestureRecognizer:closeViewTap];
+    [self.view addSubview:closeView];
+
+    // Initialize the WKWebView
     WKWebViewConfiguration *configuration = [WKWebViewConfiguration new];
     MessageHandlerOpenURLScheme *handler = [MessageHandlerOpenURLScheme new];
     handler.parent = self;
-
-    self.webView = [[WKWebView alloc] initWithFrame:self.view.bounds
+    
+    CGRect webViewFrame = CGRectMake(0, topOffset,
+                                     self.view.bounds.size.width,
+                                     self.view.bounds.size.height - topOffset);
+    self.webView = [[WKWebView alloc] initWithFrame:webViewFrame
                                       configuration:configuration];
     [self.webView.configuration.userContentController
         addScriptMessageHandler:handler
                            name:@"trustlyOpenURLScheme"];
     self.webView.navigationDelegate = self;
-    self.view = self.webView;
+    [self.view addSubview:self.webView];
     
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:self.trustlyURL];
     [self.webView loadRequest:request];
@@ -63,6 +78,14 @@
     } else {
         decisionHandler(WKNavigationActionPolicyAllow);
     }
+}
+
+# pragma mark - UIGestureRecognizer actions
+
+- (void)closeView:(UIGestureRecognizer *)sender {
+    NSLog(@"closeView");
+    [self dismissViewControllerAnimated:YES completion:nil];
+    self.flowDismissBlock();
 }
 
 # pragma mark - Helpers

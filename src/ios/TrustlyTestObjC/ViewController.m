@@ -55,7 +55,10 @@
         trustlyVC.flowDismissBlock = ^void(void) {
             NSLog(@"Flow dismissed in original view controller");
         };
+        NSLog(@"color = %@, style = %ld", trustlyVC.view.backgroundColor, (long)trustlyVC.modalPresentationStyle);
         
+        trustlyVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+
         [self presentViewController:trustlyVC
                            animated:YES
                          completion:nil];

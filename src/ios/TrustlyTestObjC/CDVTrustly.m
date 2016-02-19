@@ -58,6 +58,7 @@
         NSLog(@"Presenting the Trustly View Controller with URL: %@", trustlyURL);
             
         TrustlyViewController *trustlyVC = [TrustlyViewController new];
+        trustlyVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
         trustlyVC.trustlyURL = trustlyURL;
         trustlyVC.endUrls = endUrls;
 
@@ -72,7 +73,10 @@
             
         // Flow cancelled callback
         trustlyVC.flowDismissBlock = ^void(void) {
-            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT];
+            NSDictionary *result = @{@"code": @"cancelled",
+                                     @"message": @"User cancelled flow."};
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
+                                                          messageAsDictionary:result];
             [self.commandDelegate sendPluginResult:pluginResult
                                         callbackId:callbackId];
         };
@@ -82,8 +86,10 @@
                                         completion:nil];
         
     } else {
+        NSDictionary *result = @{@"code": @"error",
+                                 @"message": errorMsg};
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
-                                                          messageAsString:errorMsg];
+                                                      messageAsDictionary:result];
         [self.commandDelegate sendPluginResult:pluginResult 
                                     callbackId:callbackId];
     }

@@ -24,8 +24,9 @@ function onDeviceReady() {
             console.log(response.finalUrl);
         }
 
-        function errorCallback(message) {
-            console.log(message);
+        function errorCallback(response) {
+            // Possible codes at the moment: 'cancelled', 'error'    
+            console.log(response.code, response.message);
         }
 
         var endUrls = ['/flow/done', 'flow/cancel'];
