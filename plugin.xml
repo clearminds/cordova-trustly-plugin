@@ -42,8 +42,6 @@
         <source-file src="src/android/TrustlyTest/app/src/main/java/se/monkeys/trustly/Trustly.java" target-dir="src/se/monkeys/trustly" />
         <source-file src="src/android/TrustlyTest/app/src/main/java/se/monkeys/trustly/TrustlyActivity.java" target-dir="src/se/monkeys/trustly" />
         <source-file src="src/android/TrustlyTest/app/src/main/java/se/monkeys/trustly/TrustlyJavascriptInterface.java" target-dir="src/se/monkeys/trustly" />
-
-        <framework src="com.android.support:appcompat-v7:23.1.1"/>
     </platform>
 
     <!-- ios -->
